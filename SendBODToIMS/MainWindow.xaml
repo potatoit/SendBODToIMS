@@ -1,0 +1,31 @@
+﻿<Window x:Class="SendBODToIMS.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SendBODToIMS"
+        mc:Ignorable="d"
+        Title="Send BOD to IMS" Height="450" Width="800" Closing="Window_Closing">
+    <Grid>
+        <GroupBox Header="User" Height="134" Margin="10,10,10,0" VerticalAlignment="Top">
+            <Grid>
+                <Button x:Name="btnIONAPI" Content="ION API" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="72" Click="btnIONAPI_Click"/>
+                <TextBox x:Name="tbIONAPIPath" Height="23" Margin="86,11,13,0" TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Right"/>
+                <TextBox x:Name="tbMessageID" HorizontalAlignment="Left" Height="23" Margin="86,64,0,0" VerticalAlignment="Top" Width="156" Text="msg#1234555" />
+                <TextBox x:Name="tbFromLogicalID" HorizontalAlignment="Left" Height="23" Margin="348,65,0,0" VerticalAlignment="Top" Width="117" Text="lid://infor.ims.sac_imstest" />
+                <TextBox x:Name="tbToLogicalID" HorizontalAlignment="Left" Height="23" Margin="565,65,0,0" VerticalAlignment="Top" Width="123" Text="lid://default" />
+                <Label Content="From LogicalID:" HorizontalAlignment="Left" Margin="247,62,0,0" VerticalAlignment="Top" Width="96" />
+                <Label Content="To LogicalID:" HorizontalAlignment="Left" Margin="470,62,0,0" VerticalAlignment="Top" Width="79" />
+                <Label Content="Message ID:" HorizontalAlignment="Left" Margin="14,62,0,0" VerticalAlignment="Top" Width="72" />
+                <TextBox x:Name="tbTenant" HorizontalAlignment="Left" Height="23" Margin="86,37,0,0" VerticalAlignment="Top" Width="156" IsReadOnly="True" />
+                <Label Content="Tenant:" HorizontalAlignment="Left" Margin="27,35,0,0" VerticalAlignment="Top" Width="46" />
+                <TextBox x:Name="tbBODName" HorizontalAlignment="Left" Height="23" Margin="565,38,0,0" VerticalAlignment="Top" Width="182" Text="Load.M3EDISupplierInvoice" />
+                <Label Content="BOD:" HorizontalAlignment="Left" Margin="470,35,0,0" VerticalAlignment="Top" Width="79" />
+
+            </Grid>
+        </GroupBox>
+        <TextBox x:Name="tbBODMessage" HorizontalAlignment="Left" Height="212" Margin="10,149,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="772" AcceptsReturn="True"/>
+        <Button x:Name="btnSend" Content="Send" HorizontalAlignment="Left" Margin="10,366,0,0" VerticalAlignment="Top" Width="75" Click="btnSend_Click"/>
+
+    </Grid>
+</Window>
