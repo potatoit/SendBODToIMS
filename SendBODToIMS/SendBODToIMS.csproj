@@ -107,9 +107,13 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Published\SendBODToIMS.zip" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>powershell.exe -Command $null=mkdir '$(SolutionDir)PublishOutput'; Compress-Archive -CompressionLevel Optimal -Path '$(TargetDir)*.*', '$(TargetDir)*.pdb', '$(TargetDir)*.config' -DestinationPath '$(SolutionDir)SendBODToIMS\Published\$(ProjectName).zip' -Force</PostBuildEvent>
+  </PropertyGroup>
 </Project>
