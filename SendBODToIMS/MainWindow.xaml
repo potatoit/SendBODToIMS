@@ -12,20 +12,23 @@
                 <Button x:Name="btnIONAPI" Content="ION API" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="72" Click="btnIONAPI_Click"/>
                 <TextBox x:Name="tbIONAPIPath" Height="23" Margin="86,11,13,0" TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Right"/>
                 <TextBox x:Name="tbMessageID" HorizontalAlignment="Left" Height="23" Margin="86,64,0,0" VerticalAlignment="Top" Width="156" Text="msg#1234555" />
-                <TextBox x:Name="tbFromLogicalID" HorizontalAlignment="Left" Height="23" Margin="348,65,0,0" VerticalAlignment="Top" Width="117" Text="lid://infor.ims.sac_imstest" />
-                <TextBox x:Name="tbToLogicalID" HorizontalAlignment="Left" Height="23" Margin="565,65,0,0" VerticalAlignment="Top" Width="123" Text="lid://default" />
+                <TextBox x:Name="tbFromLogicalID" Height="23" Margin="348,65,295,0" VerticalAlignment="Top" Text="lid://infor.ims.sac_imstest" />
+                <TextBox x:Name="tbToLogicalID" HorizontalAlignment="Right" Height="23" Margin="0,65,72,0" VerticalAlignment="Top" Width="123" Text="lid://default" />
                 <Label Content="From LogicalID:" HorizontalAlignment="Left" Margin="247,62,0,0" VerticalAlignment="Top" Width="96" />
-                <Label Content="To LogicalID:" HorizontalAlignment="Left" Margin="470,62,0,0" VerticalAlignment="Top" Width="79" />
+                <Label Content="To LogicalID:" HorizontalAlignment="Right" Margin="0,62,211,0" VerticalAlignment="Top" Width="79" />
                 <Label Content="Message ID:" HorizontalAlignment="Left" Margin="14,62,0,0" VerticalAlignment="Top" Width="72" />
                 <TextBox x:Name="tbTenant" HorizontalAlignment="Left" Height="23" Margin="86,37,0,0" VerticalAlignment="Top" Width="156" IsReadOnly="True" />
                 <Label Content="Tenant:" HorizontalAlignment="Left" Margin="27,35,0,0" VerticalAlignment="Top" Width="46" />
-                <TextBox x:Name="tbBODName" HorizontalAlignment="Left" Height="23" Margin="565,38,0,0" VerticalAlignment="Top" Width="182" Text="Load.M3EDISupplierInvoice" />
-                <Label Content="BOD:" HorizontalAlignment="Left" Margin="470,35,0,0" VerticalAlignment="Top" Width="79" />
+                <TextBox x:Name="tbBODName" HorizontalAlignment="Right" Height="23" Margin="0,38,13,0" VerticalAlignment="Top" Width="182" Text="Load.M3EDISupplierInvoice" />
+                <Label Content="BOD:" HorizontalAlignment="Right" Margin="0,35,211,0" VerticalAlignment="Top" Width="79" />
+                <Label Content="CI:" HorizontalAlignment="Left" Margin="247,35,0,0" VerticalAlignment="Top" Width="46" />
+                <TextBox x:Name="tbCI" Height="23" Margin="348,37,295,0" VerticalAlignment="Top" IsReadOnly="True" />
+                <Button x:Name="btnDetermineBOD" Content="BOD Name" HorizontalAlignment="Right" Margin="0,81,0,0" VerticalAlignment="Top" Width="64" Click="btnDetermineBOD_Click"/>
 
             </Grid>
         </GroupBox>
-        <TextBox x:Name="tbBODMessage" HorizontalAlignment="Left" Height="212" Margin="10,149,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="772" AcceptsReturn="True"/>
-        <Button x:Name="btnSend" Content="Send" HorizontalAlignment="Left" Margin="10,366,0,0" VerticalAlignment="Top" Width="75" Click="btnSend_Click"/>
+        <TextBox x:Name="tbBODMessage" Margin="10,149,10,58" TextWrapping="Wrap" Text="" AcceptsReturn="True" LostFocus="tbBODMessage_LostFocus" VerticalScrollBarVisibility="Auto"/>
+        <Button x:Name="btnSend" Content="Send" HorizontalAlignment="Left" Margin="10,0,0,33" VerticalAlignment="Bottom" Width="75" Click="btnSend_Click"/>
 
     </Grid>
 </Window>

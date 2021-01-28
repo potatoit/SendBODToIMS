@@ -4,6 +4,7 @@ using Newtonsoft.Json.Bson;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace SendBODToIMS
 {
@@ -31,13 +33,69 @@ namespace SendBODToIMS
 
         IMS iMS = null;
 
+        private string projectName = "project.json";
+        private Project project = null;
+
         public MainWindow()
         {
             InitializeComponent();
 
+            if(File.Exists(projectName))
+            {
+                project = new Project();
+                string error = null;
+                if(null != (error = project.Load(projectName)))
+                {
+                    project = null;
+                }
+                else
+                {
+                    tbFromLogicalID.Text = project.fromLogicalID;
+                    tbToLogicalID.Text = project.toLogicalID;
+                    tbMessageID.Text = project.messageID;
+                    tbBODMessage.Text = project.BOD;
+
+                    tbBODName.Text = getBODName(tbBODMessage.Text);
+                }
+            }
+
             bwIMS.DoWork += bwIMS_DoWork;
             bwIMS.RunWorkerCompleted += bwIMS_RunWorkerCompleted;
 
+        }
+
+        private string getBODName(string aBOD)
+        {
+            string result = null;
+
+            string[] verbs = { "Sync", "Process", "Acknowledge", "Load" };
+
+            try
+            {
+                if (false == string.IsNullOrEmpty(aBOD))
+                {
+                    XDocument doc = XDocument.Parse(aBOD);
+                    string bodName = doc.Root.Name.LocalName;
+
+                    if(false == string.IsNullOrEmpty(bodName))
+                    {
+                        foreach(string verb in verbs)
+                        {
+                            if (bodName.StartsWith(verb))
+                            {
+                                result = bodName.Insert(verb.Length, ".");
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return (result);
         }
 
         private void setEnabled(bool aEnabled)
@@ -45,7 +103,14 @@ namespace SendBODToIMS
 
             btnIONAPI.IsEnabled = aEnabled;
             btnSend.IsEnabled = aEnabled;
-
+            //if(aEnabled)
+            //{
+            //    Mouse.OverrideCursor = Cursors.Wait;
+            //}
+            //else
+            //{
+            //    Mouse.OverrideCursor = null;
+            //}
         }
 
         private void bwIMS_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -63,6 +128,7 @@ namespace SendBODToIMS
                     MessageBox.Show("Error: " + result.StatusCode + " " + result.Error);
                 }
             }
+            setEnabled(true);
         }
 
         private void bwIMS_DoWork(object sender, DoWorkEventArgs e)
@@ -86,6 +152,7 @@ namespace SendBODToIMS
             iMS.toLogicalId = tbToLogicalID.Text;
             iMS.messageId = tbMessageID.Text;
 
+            setEnabled(false);
             bwIMS.RunWorkerAsync();
         }
 
@@ -109,6 +176,7 @@ namespace SendBODToIMS
                     {
                         ionAPI.mainWindow = this;
                         tbTenant.Text = ionAPI.getTenant();
+                        tbCI.Text = ionAPI.getClientId();
                         credentials = ionAPI;
                     }
                     else
@@ -134,8 +202,43 @@ namespace SendBODToIMS
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
+            if(null == project)
+            {
+                project = new Project();
+            }
+            project.fromLogicalID = tbFromLogicalID.Text;
+            project.toLogicalID = tbToLogicalID.Text;
+            project.messageID = tbMessageID.Text;
+            project.BOD = tbBODMessage.Text;
+
+            project.Save(projectName);
+
             credentials = null;
             Application.Current.Shutdown();
+        }
+
+        private void btnDetermineBOD_Click(object sender, RoutedEventArgs e)
+        {
+            string bodName = getBODName(tbBODMessage.Text);
+
+            if (null != bodName)
+            {
+                tbBODName.Text = bodName;
+            }
+            else
+            {
+                MessageBox.Show("Couldn't determine BOD name");
+            }
+        }
+
+        private void tbBODMessage_LostFocus(object sender, RoutedEventArgs e)
+        {
+            string bodName = getBODName(tbBODMessage.Text);
+
+            if(null != bodName)
+            {
+                tbBODName.Text = bodName;
+            }
         }
     }
 }
